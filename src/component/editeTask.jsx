@@ -1,0 +1,108 @@
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import "./stylecomponent.css";
+import Grid from "@mui/material/Grid";
+import { useState } from "react";
+
+function EditeTask({ edaitTaskc, tasked }) {
+  const [updetTask, setUpdetTask] = useState({
+    id: tasked.id,
+    title: tasked.title,
+    description: tasked.description,
+  });
+
+  return (
+    <>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          top: "200px",
+          position: "absolute",
+          zIndex: 22,
+          width: "80%",
+          m: "0px 30px 0px 30px ",
+          padding: "20px 20px 14px 20px",
+          borderRadius: "20px",
+          background: "#ffffffff",
+        }}
+      >
+        <Grid size={12}>
+          <TextField
+            value={updetTask.title}
+            onChange={(T) => {
+              setUpdetTask({ ...updetTask, title: T.target.value });
+            }}
+            sx={{
+              width: "100%",
+              height: "100%",
+              padding: "0px",
+
+              "& input": { fontSize: "25px", color: "#000000ff" },
+              "& label": {
+                color: "#555151ff",
+                right: 20,
+                left: "auto",
+                m: "-10px -15px 0px 0px",
+                transformOrigin: "top right",
+                textAlign: "right",
+                fontSize: "30px",
+                ":focus": { color: "#555151ff", bgcolor: "#972c2cff" },
+              },
+            }}
+            id="standard-basic"
+            label="عنوان المهمة"
+            variant="standard"
+          />{" "}
+        </Grid>{" "}
+        <Grid size={12}>
+          <TextField
+            value={updetTask.description}
+            onChange={(T) => {
+              setUpdetTask({ ...updetTask, description: T.target.value });
+            }}
+            sx={{
+              width: "100%",
+              height: "100%",
+              padding: "0px",
+
+              "& input": { fontSize: "20px", color: "#000000ff" },
+              "& label": {
+                color: "#555151ff",
+                right: 20,
+                left: "auto",
+                m: "-1px -15px 0px 0px",
+                transformOrigin: "top right",
+                textAlign: "right",
+                fontSize: "20px",
+              },
+            }}
+            id="standard-basic"
+            label="وصف المهمة"
+            variant="standard"
+          />
+        </Grid>
+        <Button
+          sx={{
+            width: "25%",
+            height: "100%",
+            padding: "0px",
+            fontSize: "24px",
+            margin: "auto",
+          }}
+          onClick={() => {
+            if (updetTask.title) {
+              edaitTaskc(updetTask);
+            }
+          }}
+          variant="contained"
+        >
+          تحديث
+        </Button>
+      </Grid>
+    </>
+  );
+}
+
+export default EditeTask;
