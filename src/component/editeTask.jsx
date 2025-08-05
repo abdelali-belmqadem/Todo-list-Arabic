@@ -4,16 +4,33 @@ import Button from "@mui/material/Button";
 import "./stylecomponent.css";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
+import { useContext } from "react";
+import { todoContext } from "./context/todocontext";
 
-function EditeTask({ edaitTaskc, tasked }) {
-  const [updetTask, setUpdetTask] = useState({
-    id: tasked.id,
-    title: tasked.title,
-    description: tasked.description,
-  });
+function EditeTask() {
+  const [tasks, ,setTaskToEdit , setTasks ,taskToEdit , , , ,] =
+    useContext(todoContext);
+  const [updetTask, setUpdetTask] = useState(taskToEdit);
+
+  function edaitTask() {
+   
+    const newupTasks = [...tasks];
+    const newupTask = newupTasks.map((UT) => {
+      if (UT.id === updetTask.id) {
+        return updetTask;
+      } else {
+        return UT;
+      }
+    });
+
+    setTasks(newupTask);
+    setTaskToEdit(null);
+  }
 
   return (
-    <>
+
+    <div >
+   
       <Grid
         container
         spacing={2}
@@ -21,14 +38,13 @@ function EditeTask({ edaitTaskc, tasked }) {
           top: "200px",
           position: "absolute",
           zIndex: 22,
-          width: "80%",
-          m: "0px 30px 0px 30px ",
+          width: "92%",
           padding: "20px 20px 14px 20px",
           borderRadius: "20px",
-          background: "#ffffffff",
+          background: "#e2e2e2f0",
         }}
-      >
-        <Grid size={12}>
+       >
+      <Grid size={12}>
           <TextField
             value={updetTask.title}
             onChange={(T) => {
@@ -55,8 +71,8 @@ function EditeTask({ edaitTaskc, tasked }) {
             label="عنوان المهمة"
             variant="standard"
           />{" "}
-        </Grid>{" "}
-        <Grid size={12}>
+      </Grid>{" "}
+      <Grid size={12}>
           <TextField
             value={updetTask.description}
             onChange={(T) => {
@@ -82,8 +98,8 @@ function EditeTask({ edaitTaskc, tasked }) {
             label="وصف المهمة"
             variant="standard"
           />
-        </Grid>
-        <Button
+      </Grid>
+      <Button
           sx={{
             width: "25%",
             height: "100%",
@@ -93,15 +109,15 @@ function EditeTask({ edaitTaskc, tasked }) {
           }}
           onClick={() => {
             if (updetTask.title) {
-              edaitTaskc(updetTask);
+              edaitTask();
             }
           }}
           variant="contained"
         >
           تحديث
-        </Button>
+      </Button>
       </Grid>
-    </>
+</div>
   );
 }
 

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,18 +7,36 @@ import Stack from "@mui/material/Stack";
 import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useContext } from "react";
+import { todoContext } from "./context/todocontext";
+import { useEffect } from "react";
+import { useState } from "react";
 import "./stylecomponent.css";
 import ClearIcon from "@mui/icons-material/Clear";
-export default function TodoTask({
-  taskp,
-  isCompletedx,
-  deleteTaskx,
-  shoeditc,
-  noCompletedx,
-}) {
 
 
-  return (
+
+export default function AllTask(){
+
+   const [tasks, mode,setTaskToEdit , setTasks , , ,setAresure , ,setIdTasktoDellet] = useContext(todoContext);
+   const [tasksJSX, setTasksJSX] = useState([]);
+   
+
+    useEffect(() => {
+    let filteredtasks = [];
+    if (mode === "completed") {
+      filteredtasks = tasks.filter((t) => t.iscompleted);
+    } else if (mode === "notcompleted") {
+      filteredtasks = tasks.filter((t) => !t.iscompleted);
+    } else{
+      filteredtasks = tasks;
+    }
+
+    const todotaskx = [...filteredtasks]
+      .reverse()
+      .map((T) => (
+
+    <div key={T.id} className="allTask">
     <Card
       sx={{
         transition: "all 0.5s",
@@ -35,7 +52,7 @@ export default function TodoTask({
         },
       }}
     >
-      <Box
+      <Box  onClick={()=> setAresure(false)}
         sx={{
           flexGrow: 1,
           display: "flex",
@@ -46,22 +63,22 @@ export default function TodoTask({
       >
         <CardContent>
           <Typography component="div" variant="h6" fontFamily={"Aarab"}>
-            {taskp.title}
+            {T.title}
           </Typography>
           <Typography
             variant="subtitle1"
             component="div"
             sx={{ color: "text.secondary" }}
           >
-            {taskp.description}
+            {T.description}
           </Typography>
         </CardContent>
       </Box>
       <Stack direction="row">
         {/* ======================== */}
-        {!taskp.iscompleted ? (
+        {!T.iscompleted ? (
           <CheckIcon
-            onClick={() => isCompletedx(taskp.id)}
+            onClick={() => isCompleted(T.id)}
             color="success"
             sx={{
               transition: "all 0.5s",
@@ -82,7 +99,7 @@ export default function TodoTask({
           />
         ) : (
           <ClearIcon
-            onClick={() => isCompletedx(taskp.id)}
+            onClick={() => isCompleted(T.id)}
             sx={{
               fontSize: "51px",
               transition: "all 0.5s",
@@ -105,7 +122,7 @@ export default function TodoTask({
         )}
         {/* ////======================== */}
         <CreateIcon
-           onClick={() => shoeditc(taskp)}
+          onClick={() => setTaskToEdit(T)}
           color="info"
           sx={{
             transition: "all 0.5s",
@@ -124,7 +141,7 @@ export default function TodoTask({
           }}
         />
         <DeleteIcon
-          onClick={() => deleteTaskx(taskp.id)}
+          onClick={() =>{ setAresure(true) ; setIdTasktoDellet(T.id)}}
           color="error"
           sx={{
             transition: "all 0.5s",
@@ -144,5 +161,25 @@ export default function TodoTask({
         />
       </Stack>
     </Card>
-  );
+    </div>
+      ));
+   setTasksJSX(todotaskx)
+  }, [mode, tasks]);
+
+
+  function isCompleted(id) {
+    const updatedTasks = tasks.map((t) => {
+      if (t.id === id) {
+        t.iscompleted = !t.iscompleted;
+      }
+      return t;
+    });
+    setTasks(updatedTasks);
+  };
+
+// ================================ //
+
+
+  
+  return <>{tasksJSX}</>;
 }

@@ -4,22 +4,29 @@ import Button from "@mui/material/Button";
 import "./stylecomponent.css";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
+import { useContext } from "react";
+import { todoContext } from "./context/todocontext";
+import { v4 as uuidv4 } from "uuid";
 
-export default function AddTask({ addTasks }) {
+export default function AddTask() {
   const [title, setTitle] = useState("");
-  function addTask() {
-    addTasks(title);
+  const [tasks, , , setTasks] = useContext(todoContext);
+
+  function addTasks() {
+    setTasks([
+      ...tasks,
+      { id: uuidv4(), title: title, description: "", iscompleted: false },
+    ]);
     setTitle("");
   }
-
   return (
     <Grid
       container
       spacing={2}
-      sx={{ width: "95%", m: "15px 10px 10px 20px "  }}
+      sx={{ width: "92%", m: "15px 10px 10px 20px " }}
     >
       <Grid size={9}>
-        <TextField         
+        <TextField
           onChange={(T) => {
             setTitle(T.target.value);
           }}
@@ -46,8 +53,12 @@ export default function AddTask({ addTasks }) {
       </Grid>
       <Grid size={3}>
         <Button
-          onClick={() => { if (title) { addTask(); }}}
-          sx={{ width: "100%", height: "70%", fontSize: "30px" }}
+          onClick={() => {
+            if (title) {
+              addTasks();
+            }
+          }}
+          sx={{ width: "100%", height: "80%", fontSize: "30px" }}
           variant="contained"
         >
           إضافة
