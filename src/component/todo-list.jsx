@@ -63,7 +63,7 @@ export default function TodoList() {
           <Card
             sx={{
               minWidth: "305px",
-              height: "650px",
+              height: "98vh",
               borderRadius: "20px",
               m: "10px 0px 0px 0px",
             }}
@@ -71,7 +71,7 @@ export default function TodoList() {
             <div
               className="Nav-Bar"
               onClick={() => setAresure(false)}
-              style={{ height: "120px" }}
+              style={{  maxHeight: "120px" }}
             >
               <Typography
                 gutterBottom
@@ -107,7 +107,7 @@ export default function TodoList() {
             </div>
             <div  className="Tasks"
               style={{
-                height: "400px",
+                 height: "calc(100vh - 245px)",
                 overflow: "auto",
                 scrollbarWidth: "none",
               }}
@@ -119,8 +119,7 @@ export default function TodoList() {
               onClick={() => setAresure(false)}
               style={{
                 position: "absolute",
-
-                height: "120px",
+                maxHeight:"120px",
                 bottom: "0px",
                 width: "92%",
                 backgroundColor: "#ffffffff",

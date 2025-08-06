@@ -39,7 +39,7 @@ export default function DelletTask() {
       <CardContent>
         <Typography
           gutterBottom
-          sx={{ color: "text.secondary", fontSize: 33, padding: "0px" }}
+          sx={{ color: "text.secondary", fontSize: 25, padding: "0px" }}
         >
           هل أنت متأكد أنك تريد حذف هذه المهمة ؟
         </Typography>
@@ -51,7 +51,7 @@ export default function DelletTask() {
             color: "#1565c0",
             border: "2px solid",
             borderRadius: "20px",
-            fontSize: 30,
+            fontSize: 25,
             padding: "0px 30px 0px 30px",
             m: "10px 10px 10px 0px",
             ":hover": { backgroundColor: "#1565c02b" },
@@ -67,7 +67,7 @@ export default function DelletTask() {
             color: "red",
             border: "2px solid",
             borderRadius: "20px",
-            fontSize: 30,
+            fontSize: 25,
             padding: "0px 30px 0px 30px",
             m: "10px 10px 10px 10px",
             ":hover": { backgroundColor: "#c633332b" },
