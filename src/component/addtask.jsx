@@ -10,14 +10,16 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function AddTask() {
   const [title, setTitle] = useState("");
-  const [tasks, , , setTasks] = useContext(todoContext);
+  const { tasks, setTasks } = useContext(todoContext);
 
   function addTasks() {
-    setTasks([
+    const allTasks = [
       ...tasks,
       { id: uuidv4(), title: title, description: "", iscompleted: false },
-    ]);
+    ];
+    setTasks(allTasks);
     setTitle("");
+    localStorage.setItem("allTaskTodo", JSON.stringify(allTasks));
   }
   return (
     <Grid
@@ -25,7 +27,7 @@ export default function AddTask() {
       spacing={2}
       sx={{ width: "92%", m: "15px 10px 10px 20px " }}
     >
-      <Grid size={9}>
+      <Grid size={8}>
         <TextField
           onChange={(T) => {
             setTitle(T.target.value);
@@ -51,8 +53,9 @@ export default function AddTask() {
           variant="standard"
         />
       </Grid>
-      <Grid size={3}>
+      <Grid size={4}>
         <Button
+          disabled={title.length === 0}
           onClick={() => {
             if (title) {
               addTasks();

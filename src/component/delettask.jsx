@@ -7,26 +7,19 @@ import { useContext } from "react";
 import { todoContext } from "./context/todocontext";
 
 export default function DelletTask() {
-  const [
-    tasks,
-    ,
-    ,
-    setTasks,
-    ,
-    ,
-    setAresure,
-    idTasktoDellet,
-    setIdTasktoDellet,
-  ] = useContext(todoContext);
+  const { tasks, setTasks, setAresure, idTasktoDellet, setIdTasktoDellet } =
+    useContext(todoContext);
 
   function deleteTaskconfirem(id) {
     const allTask = [...tasks];
     const newTask = allTask.filter((t) => {
       return t.id !== id;
     });
-    setTasks(newTask);
+    const allTasks = newTask;
+    setTasks(allTasks);
     setAresure(false);
     setIdTasktoDellet(null);
+    localStorage.setItem("allTaskTodo", JSON.stringify(allTasks));
   }
 
   return (
@@ -50,39 +43,38 @@ export default function DelletTask() {
         >
           هل أنت متأكد أنك تريد حذف هذه المهمة ؟
         </Typography>
-    <Button
-      onClick={() => {
-        setAresure(false);
-      }}
-      sx={{
-        color: "#1565c0",
-        border: "2px solid",
-        borderRadius: "20px",
-        fontSize: 30,
-        padding: "0px 30px 0px 30px",
-        m: "10px 10px 10px 0px",
-        ":hover": { backgroundColor: "#1565c02b" },
-      }}
-    >
-      إلغاء
-    </Button>
-    <Button
-      onClick={() => {
-        deleteTaskconfirem(idTasktoDellet);
-      }}
-      sx={{
-        color: "red",
-        border: "2px solid",
-        borderRadius: "20px",
-        fontSize: 30,
-        padding: "0px 30px 0px 30px",
-        m: "10px 10px 10px 10px",
-        ":hover": { backgroundColor: "#c633332b" },
-      }}
-    >
-      حدف{" "}
-    </Button>
-
+        <Button
+          onClick={() => {
+            setAresure(false);
+          }}
+          sx={{
+            color: "#1565c0",
+            border: "2px solid",
+            borderRadius: "20px",
+            fontSize: 30,
+            padding: "0px 30px 0px 30px",
+            m: "10px 10px 10px 0px",
+            ":hover": { backgroundColor: "#1565c02b" },
+          }}
+        >
+          إلغاء
+        </Button>
+        <Button
+          onClick={() => {
+            deleteTaskconfirem(idTasktoDellet);
+          }}
+          sx={{
+            color: "red",
+            border: "2px solid",
+            borderRadius: "20px",
+            fontSize: 30,
+            padding: "0px 30px 0px 30px",
+            m: "10px 10px 10px 10px",
+            ":hover": { backgroundColor: "#c633332b" },
+          }}
+        >
+          حدف{" "}
+        </Button>
       </CardContent>
     </Card>
   );

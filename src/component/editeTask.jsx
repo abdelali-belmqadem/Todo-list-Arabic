@@ -8,29 +8,26 @@ import { useContext } from "react";
 import { todoContext } from "./context/todocontext";
 
 function EditeTask() {
-  const [tasks, ,setTaskToEdit , setTasks ,taskToEdit , , , ,] =
+  const { tasks, setTaskToEdit, setTasks, taskToEdit } =
     useContext(todoContext);
   const [updetTask, setUpdetTask] = useState(taskToEdit);
 
   function edaitTask() {
-   
-    const newupTasks = [...tasks];
-    const newupTask = newupTasks.map((UT) => {
+    const allTask = [...tasks];
+    const newupTask = allTask.map((UT) => {
       if (UT.id === updetTask.id) {
         return updetTask;
-      } else {
-        return UT;
       }
+      return UT;
     });
-
-    setTasks(newupTask);
+    const allTasks = newupTask;
+    setTasks(allTasks);
     setTaskToEdit(null);
+    localStorage.setItem("allTaskTodo", JSON.stringify(allTasks));
   }
 
   return (
-
-    <div >
-   
+    <div>
       <Grid
         container
         spacing={2}
@@ -43,10 +40,11 @@ function EditeTask() {
           borderRadius: "20px",
           background: "#e2e2e2f0",
         }}
-       >
-      <Grid size={12}>
+      >
+        <Grid size={12}>
           <TextField
             value={updetTask.title}
+            type="text"
             onChange={(T) => {
               setUpdetTask({ ...updetTask, title: T.target.value });
             }}
@@ -71,10 +69,11 @@ function EditeTask() {
             label="عنوان المهمة"
             variant="standard"
           />{" "}
-      </Grid>{" "}
-      <Grid size={12}>
+        </Grid>{" "}
+        <Grid size={12}>
           <TextField
             value={updetTask.description}
+            type="text"
             onChange={(T) => {
               setUpdetTask({ ...updetTask, description: T.target.value });
             }}
@@ -98,8 +97,8 @@ function EditeTask() {
             label="وصف المهمة"
             variant="standard"
           />
-      </Grid>
-      <Button
+        </Grid>
+        <Button
           sx={{
             width: "25%",
             height: "100%",
@@ -115,9 +114,9 @@ function EditeTask() {
           variant="contained"
         >
           تحديث
-      </Button>
+        </Button>
       </Grid>
-</div>
+    </div>
   );
 }
 
