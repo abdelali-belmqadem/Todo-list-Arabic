@@ -5,10 +5,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { todoContext } from "./context/todocontext";
+import { saveToLocalStorage } from "./todo-list";
+import { useToast } from "./context/toastcontext";
+
 
 export default function DelletTask() {
   const { tasks, setTasks, setAresure, idTasktoDellet, setIdTasktoDellet } =
     useContext(todoContext);
+      const {showToast} = useToast();
 
   function deleteTaskconfirem(id) {
     const allTask = [...tasks];
@@ -19,7 +23,8 @@ export default function DelletTask() {
     setTasks(allTasks);
     setAresure(false);
     setIdTasktoDellet(null);
-    localStorage.setItem("allTaskTodo", JSON.stringify(allTasks));
+    saveToLocalStorage(allTasks);
+      showToast("تم الحذف بنجاح")
   }
 
   return (

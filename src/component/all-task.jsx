@@ -7,10 +7,13 @@ import Stack from "@mui/material/Stack";
 import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useContext } from "react";
+import { useContext , useMemo } from "react";
 import { todoContext } from "./context/todocontext";
+import { saveToLocalStorage } from "./todo-list";
 import "./stylecomponent.css";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useToast } from "./context/toastcontext";
+
 
 export default function AllTask() {
   const {
@@ -22,16 +25,20 @@ export default function AllTask() {
     setIdTasktoDellet,
   } = useContext(todoContext);
 
-  let filteredtasks = tasks;
+   const {showToast} =useToast();
+
+  let filteredtasks = [];
   if (mode === "completed") {
     filteredtasks = tasks.filter((t) => t.iscompleted);
   } else if (mode === "notcompleted") {
     filteredtasks = tasks.filter((t) => !t.iscompleted);
   } else {
-    filteredtasks = tasks;
+    filteredtasks = tasks; 
   }
 
-  const tasksJSX = [...filteredtasks].reverse().map((T) => (
+  // show all task 
+  const tasksJSX = useMemo(()=> {return  [...filteredtasks].reverse().map((T) => (
+    console.log("change tasks filteredtasks"),
     <div key={T.id} className="allTask">
       <Card
         sx={{
@@ -168,18 +175,21 @@ export default function AllTask() {
         </Stack>
       </Card>
     </div>
-  ));
+  ))},[filteredtasks])
+
 
   function isCompleted(id) {
     const updatedTasks = tasks.map((t) => {
       if (t.id === id) {
         t.iscompleted = !t.iscompleted;
+         showToast(()=>{return t.iscompleted? "تم الانتهاء بنجاح" : "تم الإلغاء بنجاح"});
       }
       return t;
     });
     const allTasks = updatedTasks;
     setTasks(allTasks);
-    localStorage.setItem("allTaskTodo", JSON.stringify(allTasks));
+   saveToLocalStorage(allTasks);
+    
   }
 
   return <>{tasksJSX}</>;

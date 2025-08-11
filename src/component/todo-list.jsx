@@ -14,6 +14,10 @@ import DelletTask from "./delettask";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Toast from "./toast";
+import { ToastProvider } from "./context/toastcontext";
+
+
 export default function TodoList() {
   const [tasks, setTasks] = useState([]);
 
@@ -21,6 +25,8 @@ export default function TodoList() {
   const [taskToEdit, setTaskToEdit] = useState(null);
   const [mode, setMode] = useState("all");
   const [aresure, setAresure] = useState(false);
+
+ 
 
   const theme = createTheme({
     palette: {
@@ -41,11 +47,18 @@ export default function TodoList() {
     });
   }, []);
 
+  
   function handleChange(ev) {
     setMode(ev);
   }
+
+
   return (
+
+
+
     <div id="Todo-List">
+<ToastProvider>
       <todoContext.Provider
         value={{
           tasks,
@@ -59,6 +72,10 @@ export default function TodoList() {
           setIdTasktoDellet,
         }}
       >
+
+
+
+
         <Container maxWidth="sm" sx={{ position: "fixed" }}>
           <Card
             sx={{
@@ -132,7 +149,14 @@ export default function TodoList() {
             <div className="DelletTask">{aresure && <DelletTask />}</div>
           </Card>
         </Container>
+         
       </todoContext.Provider>
+</ToastProvider>
     </div>
   );
 }
+
+export function saveToLocalStorage(tasks) {
+  localStorage.setItem("allTaskTodo", JSON.stringify(tasks));
+}
+

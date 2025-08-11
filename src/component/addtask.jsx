@@ -7,10 +7,13 @@ import { useState } from "react";
 import { useContext } from "react";
 import { todoContext } from "./context/todocontext";
 import { v4 as uuidv4 } from "uuid";
+import { saveToLocalStorage } from "./todo-list";
+import { useToast } from "./context/toastcontext";
 
 export default function AddTask() {
   const [title, setTitle] = useState("");
   const { tasks, setTasks } = useContext(todoContext);
+    const {showToast} = useToast();
 
   function addTasks() {
     const allTasks = [
@@ -19,14 +22,20 @@ export default function AddTask() {
     ];
     setTasks(allTasks);
     setTitle("");
-    localStorage.setItem("allTaskTodo", JSON.stringify(allTasks));
+
+     saveToLocalStorage(allTasks);
+  showToast("  تمت الإضافة بنجاح  ")
+    
   }
   return (
+<>
+
+   
     <Grid
       container
       spacing={2}
       sx={{ width: "92%", m: "15px 10px 10px 20px " }}
-    >
+    > 
       <Grid size={8}>
         <TextField
           onChange={(T) => {
@@ -59,7 +68,7 @@ export default function AddTask() {
           onClick={() => {
             if (title) {
               addTasks();
-            }
+            };
           }}
           sx={{ width: "100%", height: "80%", fontSize: "30px" }}
           variant="contained"
@@ -67,6 +76,6 @@ export default function AddTask() {
           إضافة
         </Button>
       </Grid>
-    </Grid>
+    </Grid></>
   );
 }
