@@ -7,12 +7,12 @@ import Stack from "@mui/material/Stack";
 import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useContext , useMemo } from "react";
-import { todoContext } from "./context/todocontext";
-import { saveToLocalStorage } from "./todo-list";
+import { useMemo } from "react";
+import { useTodoContext } from "../context/todocontext";
+import { saveToLocalStorage } from "../context/todocontext";
 import "./stylecomponent.css";
 import ClearIcon from "@mui/icons-material/Clear";
-import { useToast } from "./context/toastcontext";
+import { useToast } from "../context/toastcontext";
 
 
 export default function AllTask() {
@@ -23,7 +23,7 @@ export default function AllTask() {
     setTasks,
     setAresure,
     setIdTasktoDellet,
-  } = useContext(todoContext);
+  } = useTodoContext();
 
    const {showToast} =useToast();
 
@@ -38,7 +38,7 @@ export default function AllTask() {
 
   // show all task 
   const tasksJSX = useMemo(()=> {return  [...filteredtasks].reverse().map((T) => (
-    console.log("change tasks filteredtasks"),
+  
     <div key={T.id} className="allTask">
       <Card
         sx={{

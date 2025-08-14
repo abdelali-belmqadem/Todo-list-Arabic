@@ -6,27 +6,19 @@ import Divider from "@mui/material/Divider";
 import "./stylecomponent.css";
 import AllTask from "./all-task";
 import AddTask from "./addtask";
-import { useState } from "react";
-import { useEffect } from "react";
 import EditeTask from "./editeTask";
-import { todoContext } from "./context/todocontext";
+// import { saveToLocalStorage } from "../context/todocontext";
 import DelletTask from "./delettask";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Toast from "./toast";
-import { ToastProvider } from "./context/toastcontext";
-
+import { ToastProvider } from "../context/toastcontext";
+import { useTodoContext } from "../context/todocontext";
+import { useEffect } from "react";
 
 export default function TodoList() {
-  const [tasks, setTasks] = useState([]);
 
-  const [idTasktoDellet, setIdTasktoDellet] = useState(null);
-  const [taskToEdit, setTaskToEdit] = useState(null);
-  const [mode, setMode] = useState("all");
-  const [aresure, setAresure] = useState(false);
-
- 
+const {setAresure , taskToEdit , setTasks , aresure , mode , handleChange} = useTodoContext();
 
   const theme = createTheme({
     palette: {
@@ -36,22 +28,17 @@ export default function TodoList() {
     },
   });
 
-  useEffect(() => {
-    const allTaskTodo = JSON.parse(localStorage.getItem("allTaskTodo"));
-    setTasks(() => {
-      if (allTaskTodo) {
-        return allTaskTodo;
-      } else {
-        return [];
-      }
-    });
-  }, []);
-
   
-  function handleChange(ev) {
-    setMode(ev);
-  }
-
+     useEffect(() => {
+      const allTaskTodo = JSON.parse(localStorage.getItem("allTaskTodo"));
+      setTasks(() => {
+        if (allTaskTodo) {
+          return allTaskTodo;
+        } else {
+          return [];
+        }
+      });
+    }, []);
 
   return (
 
@@ -59,22 +46,7 @@ export default function TodoList() {
 
     <div id="Todo-List">
 <ToastProvider>
-      <todoContext.Provider
-        value={{
-          tasks,
-          mode,
-          setTaskToEdit,
-          setTasks,
-          taskToEdit,
-          aresure,
-          setAresure,
-          idTasktoDellet,
-          setIdTasktoDellet,
-        }}
-      >
-
-
-
+     
 
         <Container maxWidth="sm" sx={{ position: "fixed" }}>
           <Card
@@ -150,13 +122,8 @@ export default function TodoList() {
           </Card>
         </Container>
          
-      </todoContext.Provider>
+      
 </ToastProvider>
     </div>
   );
 }
-
-export function saveToLocalStorage(tasks) {
-  localStorage.setItem("allTaskTodo", JSON.stringify(tasks));
-}
-

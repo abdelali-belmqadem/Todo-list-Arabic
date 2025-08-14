@@ -3,15 +3,14 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useContext } from "react";
-import { todoContext } from "./context/todocontext";
-import { saveToLocalStorage } from "./todo-list";
-import { useToast } from "./context/toastcontext";
+import { useTodoContext } from "../context/todocontext";
+import { saveToLocalStorage } from "../context/todocontext";
+import { useToast } from "../context/toastcontext";
 
 
 export default function DelletTask() {
   const { tasks, setTasks, setAresure, idTasktoDellet, setIdTasktoDellet } =
-    useContext(todoContext);
+    useTodoContext();
       const {showToast} = useToast();
 
   function deleteTaskconfirem(id) {

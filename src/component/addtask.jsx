@@ -4,16 +4,16 @@ import Button from "@mui/material/Button";
 import "./stylecomponent.css";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
-import { useContext } from "react";
-import { todoContext } from "./context/todocontext";
+import { useTodoContext } from "../context/todocontext";
 import { v4 as uuidv4 } from "uuid";
-import { saveToLocalStorage } from "./todo-list";
-import { useToast } from "./context/toastcontext";
 
+import { useToast } from "../context/toastcontext"; 
+import { saveToLocalStorage } from "../context/todocontext";
 export default function AddTask() {
   const [title, setTitle] = useState("");
-  const { tasks, setTasks } = useContext(todoContext);
+  const { tasks, setTasks } = useTodoContext();
     const {showToast} = useToast();
+
 
   function addTasks() {
     const allTasks = [
